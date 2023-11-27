@@ -9,8 +9,24 @@ variable "backstage_ec2" {
       name                = "backstage-sg"
       description         = "This is backstage sg"
       ingress_cidr_blocks = ["0.0.0.0/0"]
-      ingress_rules       = ["http-80-tcp", "all-icmp"]
+      ingress_rules       = ["http-80-tcp", "all-icmp", "ssh-tcp"]
       egress_rules        = ["all-all"]
+      ingress_with_cidr_blocks = [
+        {
+          from_port   = 3000
+          to_port     = 3000
+          protocol    = "tcp"
+          description = "Backstage frontend"
+          cidr_blocks = "0.0.0.0/0"
+        },
+        {
+          from_port   = 7007
+          to_port     = 7007
+          protocol    = "tcp"
+          description = "Backstage backend"
+          cidr_blocks = "0.0.0.0/0"
+        }
+      ]
       tags = {
         name = "backstage"
       }
@@ -31,6 +47,7 @@ variable "backstage_ec2" {
       key    = "states/2-network/terraform.tfstate"
       region = "ap-southeast-1"
     }
+
     user_data = <<EOF
       #!/bin/bash
       curl -fsSL https://get.docker.com |VERSION=19.03.6 sh

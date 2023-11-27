@@ -37,15 +37,16 @@ module "key_pair_external" {
 }
 
 module "security_group_backstage" {
-  source              = "terraform-aws-modules/security-group/aws"
-  version             = "~> 4.0"
-  name                = var.backstage_ec2.security_group.name
-  description         = var.backstage_ec2.security_group.description
-  vpc_id              = local.vpc_id
-  ingress_cidr_blocks = var.backstage_ec2.security_group.ingress_cidr_blocks
-  ingress_rules       = var.backstage_ec2.security_group.ingress_rules
-  egress_rules        = var.backstage_ec2.security_group.egress_rules
-  tags                = var.backstage_ec2.security_group.tags
+  source                   = "terraform-aws-modules/security-group/aws"
+  version                  = "~> 4.0"
+  name                     = var.backstage_ec2.security_group.name
+  description              = var.backstage_ec2.security_group.description
+  vpc_id                   = local.vpc_id
+  ingress_cidr_blocks      = var.backstage_ec2.security_group.ingress_cidr_blocks
+  ingress_rules            = var.backstage_ec2.security_group.ingress_rules
+  egress_rules             = var.backstage_ec2.security_group.egress_rules
+  tags                     = var.backstage_ec2.security_group.tags
+  ingress_with_cidr_blocks = var.backstage_ec2.security_group.ingress_with_cidr_blocks
 }
 
 resource "aws_eip" "lb" {
